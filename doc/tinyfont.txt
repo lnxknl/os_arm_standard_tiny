@@ -1,0 +1,66 @@
+
+TinyFont format
+
+All fields in the TinyFont format are stored little-endian. All fields are aligned with the size of that field. This means you can cast all headers and info sections directly to C structures. 
+
+TinyFont header
++-------------------------+---------+  
+| magic number 0xCACACACA | 4 bytes |
++-------------------------+---------+  
+| header size             | 1 bytes |
++-------------------------+---------+
+| size-header size        | 1 bytes |
++-------------------------+---------+
+| start ASCII character   | 1 bytes |
++-------------------------+---------+
+| number of characters    | 1 bytes |
++-------------------------+---------+
+| number of font sizes    | 1 bytes |
++-------------------------+---------+
+| padding                 | 3 bytes |
++-------------------------+---------+
+
+The TinyFont can embed multiple font sizes into a single file. The file starts with a TinyFont header. This tells the global start and end character and the number of font sizes embedded into this file. After the header is `number_of_font_sizes` size header which describes the different font sizes and where to find them.
+
+Font global header
++-------------------------+---------+
+| point size              | 4 bytes |
++-------------------------+---------+
+| global offset           | 4 bytes |
++-------------------------+---------+
+| size of font            | 4 bytes |
++-------------------------+---------+
+
+Each of the font sizes has a global header. This is telling the size of the section and where it is relative to the start of the file. If ony one size is needed, a memcopy from the offset with the specified size is sufficient to retrieve the entire font. The offset is relative to the start of the file and points directly to the font header.
+
+Font header
++-------------------------+---------+
+| header size             | 1 byte  |
++-------------------------+---------+
+| point size              | 1 byte  |
++-------------------------+---------+
+| ymin                    | 1 byte  |
++-------------------------+---------+
+| ymax                    | 1 byte  |
++-------------------------+---------+
+
+Before each font with a specific size is a font header. This tells the size as well as the max and min y size. This can be used for alligning the font on the screen. The total height of the font will be these two fields added. Directly after the font header is a list of glyph info structures. The number of structures is equal the number of characters given in the TinyFont header. 
+
+Glyph info
++-------------------------+---------+
+| offset from font start  | 4 bytes |
++-------------------------+---------+
+| bitmap width            | 1 byte  |
++-------------------------+---------+
+| bitmap height           | 1 byte  |
++-------------------------+---------+
+| x offset                | 1 byte  |
++-------------------------+---------+
+| y offset                | 1 byte  |
++-------------------------+---------+
+| x advance               | 1 byte  |
++-------------------------+---------+
+| padding                 | 3 bytes |
++-------------------------+---------+
+
+This contains info about a spesific character. Each of the characters has a offset field, giving the offset of the first data bit relative to the font header. The data of a font is stored in one byte grayscale per pixel. 
