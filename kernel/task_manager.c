@@ -46,7 +46,7 @@ void print_mem_usage(u32 total, u32 used)
 
 extern struct rq rq;
 
-i32 task_manager(void* args)
+i32 task_manager(void* args)// @NOTE 
 {
     // Setup the task management
     struct list_node* it;
@@ -55,7 +55,7 @@ i32 task_manager(void* args)
         t->last_runtime = t->runtime;
     }
 
-    while (1) {
+    while (1) {// @NOTE 
         syscall_thread_sleep(1000);
 
         // Print the task manager header
@@ -63,7 +63,7 @@ i32 task_manager(void* args)
         u32 idle_percent = (idle->runtime - idle->last_runtime) / 10000;
 
         print_cpu_usage(100 - idle_percent);
-        print_mem_usage(mm_get_total(), mm_get_total_used());
+        print_mem_usage(mm_get_total(), mm_get_total_used());// @NOTE 
 
         // Print the thread header
         print_thread_header();
@@ -87,5 +87,5 @@ i32 task_manager(void* args)
 
 void task_manager_init(void)
 {
-    create_kthread(task_manager, 500, "taskmgmt", "HELLO", SCHED_RT);
+    create_kthread(task_manager, 500, "taskmgmt", "HELLO", SCHED_RT);// @NOTE 
 }

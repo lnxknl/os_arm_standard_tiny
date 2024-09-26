@@ -226,7 +226,7 @@ void elf_init(const u8* elf_data, u32 elf_size)// @NOTE
 
     // Create a process
     u32 irq = __atomic_enter();
-    struct thread* t = create_process((i32 (*)(void *))elf_header->entry, 500,// @NOTE 
+    struct thread* t = create_process((i32 (*)(void *))elf_header->entry, 500,// @NOTE // @NOTE 
         "elf-app", NULL, SCHED_RT);
 
     struct pte_attr attr = {

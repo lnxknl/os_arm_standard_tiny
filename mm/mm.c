@@ -59,7 +59,7 @@ static void mm_setup_page_array(void)
 
 // Starts up the custom allocators; binary buddy alloc for pages and the SLOB
 // list allocator for the kernel allocations
-void mm_allocators_init(void)
+void mm_allocators_init(void)// @NOTE 
 {
     // Find the first page_structure which is available for allocation
     u32 kernel_used = boot_alloc_get_end_vaddr() - KERNEL_START;
@@ -161,7 +161,7 @@ void mm_init(void)
 
 // Allocates a number of bytes for use by the kernel. This will return a 
 // kernel virtual address
-void* kmalloc(u32 size)
+void* kmalloc(u32 size)// @NOTE 
 {
     return slob_alloc(size, zones);
 }

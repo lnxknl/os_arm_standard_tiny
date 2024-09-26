@@ -60,7 +60,7 @@ static inline void _list_delete(struct list_node* prev, struct list_node* next)
 }
 
 /// Inserts a list node first in the list
-static inline void list_add_first(struct list_node* new, struct list_node* list)
+static inline void list_add_first(struct list_node* new, struct list_node* list)// @NOTE 
 {
     _list_add(new, list, list->next);
 }

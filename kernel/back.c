@@ -27,7 +27,7 @@ void back_enqueue(struct thread* thread, struct rq* rq)
 void back_dequeue(struct thread* thread, struct rq* rq)
 {
     u32 flags = __atomic_enter();
-    list_delete_node(&thread->node);
+    list_delete_node(&thread->node);// @NOTE 
     __atomic_leave(flags);
 }
 

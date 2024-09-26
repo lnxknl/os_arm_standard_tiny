@@ -19,7 +19,7 @@ void udp_init(void)
 }
 
 // This will add a new packet last in the port buffer
-void add_netbuf_to_port(struct netbuf* buf, u16 port)
+void add_netbuf_to_port(struct netbuf* buf, u16 port)// @NOTE 
 {
     struct list_node* node;
     list_iterate(node, &udp.ports) {
@@ -135,7 +135,7 @@ void udp_listen(u16 port)
 
 // This takes in a packet buffer. The frame_length field in the netbuf should
 // be set to the total packet size
-void udp_send(struct netbuf* buf, u32 ip, u16 port, u8 flags)
+void udp_send(struct netbuf* buf, u32 ip, u16 port, u8 flags)// @NOTE 
 {
     // Skip the UDP CRC. This will be added by the hardware
     buf->ptr -= 4;

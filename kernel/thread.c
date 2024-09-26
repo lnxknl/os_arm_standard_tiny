@@ -136,7 +136,7 @@ static void thread_set_sched_class(struct thread* thread, u32 flags)
 }
 
 // Creates a lightweight kernel thread in the kernel memory space
-struct thread* create_kthread(i32 (*func)(void *), u32 stack_words, 
+struct thread* create_kthread(i32 (*func)(void *), u32 stack_words, // @NOTE 
     const char* name, void* args, u32 flags)
 {
     // Allocate a new thread struct + stack in the same allocation
@@ -163,7 +163,7 @@ struct thread* create_kthread(i32 (*func)(void *), u32 stack_words,
     thread->stack = stack_setup(thread->stack, func, args, KERNEL_THREAD_CPSR);
 
     // Add the thread to the global thread list
-    sched_add_thread(thread);
+    sched_add_thread(thread);// @NOTE 
     thread_set_sched_class(thread, flags);
     sched_enqueue_thread(thread);
 
@@ -263,7 +263,7 @@ struct thread* create_thread(i32 (*func)(void *), u32 stack_words,
 }
 
 // Create new heavy process
-struct thread* create_process(i32 (*func)(void *), u32 stack_words,
+struct thread* create_process(i32 (*func)(void *), u32 stack_words,// @NOTE 
     const char* name, void* args, u32 flags)
 {
     struct thread* thread = kzmalloc(sizeof(struct thread));
