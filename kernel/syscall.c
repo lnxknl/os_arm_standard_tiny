@@ -40,7 +40,7 @@ void __svc_attr syscall_kill(struct thread* thread)
 // after the SVC vector. The SVC instruction is 4 bytes before the LR causing
 // the SVC number to be placed at ofset -4 relative to the SVC LR due the
 // little-endian memory ordering
-void supervisor_exception(u32* sp)
+void supervisor_exception(u32* sp)// @NOTE 
 {
     if (sp[0]) {
         sp += 3;
@@ -58,7 +58,7 @@ void supervisor_exception(u32* sp)
 
     switch(svc_num) {
         case SYSCALL_SLEEP : {
-            sched_thread_sleep(svc0);
+            sched_thread_sleep(svc0);// @NOTE 
             break;
         }
         case SYSCALL_CREATE_THREAD : {

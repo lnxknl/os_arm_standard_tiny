@@ -48,7 +48,7 @@ struct thread* fair_pick_next(struct rq* rq)
 }
 
 extern const struct sched_class back_class;
-const struct sched_class fair_class = {
+const struct sched_class fair_class = {// @NOTE 
         .next = &back_class,
         .init = &fair_init,
         .enqueue = &fair_enqueue,

@@ -22,7 +22,7 @@ struct thread* idle_pick_next(struct rq* rq)
     return rq->idle_rq.idle;
 }
 
-const struct sched_class idle_class = {
+const struct sched_class idle_class = {// @NOTE 
         .next = NULL,
         .init = &idle_init,
         .enqueue = &idle_enqueue,

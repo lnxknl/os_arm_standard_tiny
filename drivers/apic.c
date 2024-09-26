@@ -76,8 +76,8 @@ void apic_init(void)
 }
 
 // Adds a interrupt handler to the APIC. This will be called when the interrupt
-// is scheduled for execution
-void apic_add_handler(u32 irq, void (*handler)(void))
+// is scheduled for execution, and the handler will be executed in the kernel, sched executeion 
+void apic_add_handler(u32 irq, void (*handler)(void))// @NOTE 
 {
     struct apic_reg* apic = get_apic(irq);
 

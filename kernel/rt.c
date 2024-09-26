@@ -17,7 +17,7 @@ void rt_init(struct rq* rq)
     list_init(&rt_rq->queue);
 }
 
-void rt_enqueue(struct thread* thread, struct rq* rq)
+void rt_enqueue(struct thread* thread, struct rq* rq)// @NOTE 
 {
     u32 flags = __atomic_enter();
     list_add_last(&thread->node, &rq->rt_rq.queue);
@@ -48,7 +48,7 @@ struct thread* rt_pick_next(struct rq* rq)
 }
 
 extern const struct sched_class fair_class;
-const struct sched_class rt_class = {
+const struct sched_class rt_class = {// @NOTE 
         .next = &fair_class,
         .init = &rt_init,
         .enqueue = &rt_enqueue,

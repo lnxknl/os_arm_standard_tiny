@@ -31,7 +31,7 @@ vector_table:
 
     .word 0
     ldr pc, =__undef_exception      @ Undefined instruction
-    ldr pc, =__supervisor_exception @ Supervisor
+    ldr pc, =__supervisor_exception @ Supervisor// @NOTE 
     ldr pc, =__prefetch_exception   @ Prefetch  abort
     ldr pc, =__data_exception       @ Data abort
     .word 0
@@ -91,7 +91,7 @@ __data_exception:
 @ void __supervisor_exception(void)
 
 .type __supervisor_exception, %function
-__supervisor_exception:
+__supervisor_exception:// @NOTE 
 
     srsfd sp!, #SYS_MODE       @ Stores LR_irq and SPSR_irq in SP_sys
     cps #SYS_MODE

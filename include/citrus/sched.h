@@ -5,7 +5,7 @@
 #include <citrus/list.h>
 
 // Main real-time runqueue 
-struct rt_rq {
+struct rt_rq {// @NOTE 
     struct list_node queue;
 };
 

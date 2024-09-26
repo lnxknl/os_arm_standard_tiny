@@ -48,7 +48,7 @@ struct thread* back_pick_next(struct rq* rq)
 }
 
 extern const struct sched_class idle_class;
-const struct sched_class back_class = {
+const struct sched_class back_class = {// @NOTE 
         .next = &idle_class,
         .init = &back_init,
         .enqueue = &back_enqueue,

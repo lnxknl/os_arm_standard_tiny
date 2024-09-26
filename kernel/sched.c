@@ -32,11 +32,11 @@ const struct sched_class* get_sched_class(u32 class_num)
 }
 
 // Enqueus a thread into the running queue of a scheduling class
-void sched_enqueue_thread(struct thread* thread)
+void sched_enqueue_thread(struct thread* thread)// @NOTE 
 {
     assert(thread->class);
     thread->state = THREAD_RUNNING;
-    thread->class->enqueue(thread, &rq);
+    thread->class->enqueue(thread, &rq);// @NOTE 
 }
 
 // Dequeues a thread from its runqueue
@@ -78,7 +78,7 @@ void enqueue_sleeping_threads(struct rq* rq)
 void core_sched(struct rq* rq, u32 reschedule);
 
 // Scheduler interrupt being called every ms
-void cpu_tick_handler(void)
+void cpu_tick_handler(void)// @NOTE 
 {
     cpu_timer_clear_flags();
 
@@ -98,8 +98,8 @@ static inline struct thread* core_pick_next(struct rq* rq)
 {
     const struct sched_class* class;
 
-    for (class = &rt_class; class; class = class->next) {
-        struct thread* thread = class->pick_next(rq);
+    for (class = &rt_class; class; class = class->next) {// @NOTE 
+        struct thread* thread = class->pick_next(rq); // every type sched class pick one
         if (thread)
             return thread;
     }
@@ -110,7 +110,7 @@ static inline struct thread* core_pick_next(struct rq* rq)
 // Core scheduler. This must be called inside either the IRQ interrupt or the
 // SVC interrupt. These interrupts have special mechanisms for doing a context 
 // switch
-void core_sched(struct rq* rq, u32 reschedule)
+void core_sched(struct rq* rq, u32 reschedule)// @NOTE 
 {
     u32 runtime;
     if (reschedule) {
@@ -127,7 +127,7 @@ void core_sched(struct rq* rq, u32 reschedule)
     if (rq->time.tick > rq->time.tick_to_wake && rq->time.tick_to_wake)
         enqueue_sleeping_threads(rq);
 
-    struct thread* new = core_pick_next(rq);
+    struct thread* new = core_pick_next(rq);// @NOTE 
 
     // The context switch will not happend if the thread is the same
     if (new != rq->curr)
@@ -141,7 +141,7 @@ void sched_add_thread(struct thread* thread)
 }
 
 // Initializes the main runqueue structure 
-void sched_init_rq(struct rq* rq)
+void sched_init_rq(struct rq* rq)// @NOTE 
 {
     // Initialize all the lists 
     list_init(&rq->thread_list);
@@ -161,7 +161,7 @@ void sched_init_rq(struct rq* rq)
     // Initialize the private data for all the scheduling classes 
     const struct sched_class* class;
     u32 class_index = 0;
-    for (class = &rt_class; class; class = class->next) {
+    for (class = &rt_class; class; class = class->next) {// @NOTE 
         class->init(rq);
         sched_classes[class_index++] = class;
     }
@@ -218,7 +218,7 @@ void sched_init(void)
     irq_disable();
 
     // Enable APIC for the CPU timer
-    apic_add_handler(36, cpu_tick_handler);
+    apic_add_handler(36, cpu_tick_handler);// @NOTE 
     apic_enable(36);
 
     cpu_timer_init();
@@ -291,7 +291,7 @@ void sched_enable(u32 i)
 
 // This will put the current running thread into the sleep queue for a number of 
 // microseconds
-void sched_thread_sleep(u32 ms)
+void sched_thread_sleep(u32 ms)// @NOTE 
 {
     // Get the current thread
     struct thread* curr = get_curr_thread();
@@ -301,7 +301,7 @@ void sched_thread_sleep(u32 ms)
     curr->class->dequeue(curr, &rq);
     add_sleep_list(curr, &rq);
     
-    core_sched(&rq, 1);
+    core_sched(&rq, 1);// @NOTE 
 }
 
 u8 sched_kill_thread(struct thread* thread)
