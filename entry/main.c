@@ -68,7 +68,7 @@ void driver_init(void)
 {
     print_init();
     dma_init();
-    dma_receive_init();
+    dma_receive_init();// @NOTE 
     print_dma_init();
 }
 
@@ -136,12 +136,12 @@ i32 tftp_test(void* arg)
 }
 
 /// Called by entry.s after low level initialization finishes
-void main(void)
+void main(void)// @NOTE 
 {
     // Initialize the kernel system
     early_init();
     kernel_init();
-    driver_init();
+    driver_init();// @NOTE 
 
     print("\n\nStarting networking\n");
 

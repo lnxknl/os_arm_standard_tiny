@@ -191,7 +191,7 @@ void print_prog_header(struct elf_prog_header* ptr)
     print("Align: %08X\n", ptr->align);
 }
 
-void elf_init(const u8* elf_data, u32 elf_size)
+void elf_init(const u8* elf_data, u32 elf_size)// @NOTE 
 {
     struct elf_header* elf_header = (struct elf_header *)elf_data;
 
@@ -226,7 +226,7 @@ void elf_init(const u8* elf_data, u32 elf_size)
 
     // Create a process
     u32 irq = __atomic_enter();
-    struct thread* t = create_process((i32 (*)(void *))elf_header->entry, 500,
+    struct thread* t = create_process((i32 (*)(void *))elf_header->entry, 500,// @NOTE 
         "elf-app", NULL, SCHED_RT);
 
     struct pte_attr attr = {

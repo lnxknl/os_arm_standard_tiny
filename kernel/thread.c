@@ -272,7 +272,7 @@ struct thread* create_process(i32 (*func)(void *), u32 stack_words,
     init_thread_struct(thread);
 
     // Make a new memory space
-    process_mm_init(thread, stack_words);
+    process_mm_init(thread, stack_words);// @NOTE 
     create_user_thread_core(thread, func, stack_words, name, args, flags);
 
     // Must be initialized after the create_thread_core beacuse it initializes

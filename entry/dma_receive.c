@@ -69,7 +69,7 @@ void flex_print_init(void)
     FLEX4->U_IER = (1 << 8);
 }
 
-void dma_receive_init(void)
+void dma_receive_init(void)// @NOTE 
 {
     // Configure the DMA channel
     req = (struct dma_req) {
@@ -113,7 +113,7 @@ static void send_response(u8 resp)
 }
 
 // Timeout interrupt for the UART4 channel
-static void uart4_interrupt(void)
+static void uart4_interrupt(void)// @NOTE 
 {   
     if (FLEX4->U_SR & (1 << 8)) {
         FLEX4->U_CR = (1 << 11);
@@ -126,7 +126,7 @@ static void uart4_interrupt(void)
         dcache_invalidate_range((u32)dma_buffer, (u32)(dma_buffer + DMA_BUFFER_SIZE));      
 
         // Do somethong with the buffer
-        u32 status = process_packet((u8 *)dma_buffer, size);
+        u32 status = process_packet((u8 *)dma_buffer, size);// @NOTE 
         dma_submit_request(&req, channel);
 
         // Send the status. This has to be done after the DMA is re-armed
@@ -138,7 +138,7 @@ static void uart4_interrupt(void)
     }
 }
 
-static u8 process_packet(const u8* data, u32 size)
+static u8 process_packet(const u8* data, u32 size)// @NOTE 
 {
     // The data should have a packet header
     struct packet_header* header = (struct packet_header *)data;
@@ -201,7 +201,7 @@ volatile u16 x = 0;
 volatile u16 y = 0;
 volatile u32 count = 0;
 
-static u8 handle_packet(const u8* data, u32 size, u8 cmd)
+static u8 handle_packet(const u8* data, u32 size, u8 cmd)// @NOTE 
 {
     if (cmd == CMD_SIZE) {
         if (size != 4) {
@@ -218,7 +218,7 @@ static u8 handle_packet(const u8* data, u32 size, u8 cmd)
 
         if (size != 4096) {
             // Last or zero-length packet
-            elf_init((u8 *)elf_buffer, elf_size);
+            elf_init((u8 *)elf_buffer, elf_size);// @NOTE 
             clear_elf_buffers();
         }
     } else if (cmd == CMD_RESET) {
